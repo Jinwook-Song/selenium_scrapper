@@ -7,7 +7,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
 
-KEWWORD = "cpr cube"
+KEWWORD = "domain"
 
 
 # option to be kept open
@@ -28,16 +28,22 @@ search_bar.send_keys(Keys.ENTER)
 ad_element = WebDriverWait(driver, 10).until(
     EC.presence_of_element_located((By.ID, "tvcap"))
 )
-print("=======================")
-print(ad_element)
-print("=======================")
-try:
-    ad_element.screenshot(f"{KEWWORD}_ad.png")
-except:
-    pass
+
+# Delete AD element
+if ad_element:
+    driver.execute_script(
+        """
+        const ad = arguments[0]
+        ad.parentElement.removeChild(ad)
+        """,
+        ad_element,
+    )
 
 # Search Results
 search_results = driver.find_elements(by=By.CLASS_NAME, value="g")
 
 for idx, search_result in enumerate(search_results):
-    search_result.screenshot(f"screenshots/{KEWWORD}_{idx}.png")
+    try:
+        search_result.screenshot(f"screenshots/{KEWWORD}_{idx}.png")
+    except:
+        pass
