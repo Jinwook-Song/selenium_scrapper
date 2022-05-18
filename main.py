@@ -9,13 +9,10 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 
 class GoogleKeywordScreenshooter:
-    def __init__(
-        self,
-        keyword,
-        screenshot_dir="screenshots",
-    ):
+    def __init__(self, keyword, screenshot_dir="screenshots", max_page=1):
         self.keyword = keyword
         self.screenshot_dir = screenshot_dir
+        self.max_page = max_page
 
         self.chrome_options = Options()
         self.driver = webdriver.Chrome(
